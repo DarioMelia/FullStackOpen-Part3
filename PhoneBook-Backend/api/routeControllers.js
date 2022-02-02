@@ -21,7 +21,17 @@ exports.addPerson = (req,res)=>{
     const{name,number} = req.body;
     if(!name){
         return res.status(404).json({
-            error: "name missing"
+            error: "Name missing"
+        })
+    }
+    if(!number){
+        return res.status(404).json({
+            error: "Number missing"
+        })
+    }
+    if(nameExists(name)){
+        return res.status(409).json({
+            error: "Name already exists"
         })
     }
     const newPerson = {
@@ -42,4 +52,9 @@ const updateJSON = (newPersons) =>{
         console.log(JSON.stringify(newPersons));
         console.log('writing to ' + fileName);
       });
+}
+
+const nameExists = name =>{
+    if(persons.find(p=>p.name === name)) return true
+    return false
 }
