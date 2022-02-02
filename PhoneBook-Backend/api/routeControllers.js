@@ -15,7 +15,23 @@ exports.deletePersons = (req,res) => {
     persons = persons.filter(p => p.id !== id);
     updateJSON(persons);
     res.status(204).end()
+}
 
+exports.addPerson = (req,res)=>{
+    const{name,number} = req.body;
+    if(!name){
+        return res.status(404).json({
+            error: "name missing"
+        })
+    }
+    const newPerson = {
+        id: Math.floor(Math.random() * (100000 - 4) + 4).toString(),
+        name,
+        number
+    }
+    persons = persons.concat(newPerson);
+    updateJSON(persons);
+    res.status(201).json(newPerson)
 }
 
 
