@@ -1,0 +1,24 @@
+{
+  "name": "phonebook-backend",
+  "version": "1.0.0",
+  "description": "Part 3, phone book backend exercises for fullStackOpen course.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarioMelia/FullStackOpen-Part3.git"
+  },
+  "author": "Dario Melia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DarioMelia/FullStackOpen-Part3/issues"
+  },
+  "homepage": "https://github.com/DarioMelia/FullStackOpen-Part3#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
