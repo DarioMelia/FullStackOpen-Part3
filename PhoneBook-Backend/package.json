@@ -8,10 +8,6 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DarioMelia/FullStackOpen-Part3.git"
-  },
   "author": "Dario Melia",
   "license": "ISC",
   "bugs": {
