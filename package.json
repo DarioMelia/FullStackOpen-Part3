@@ -9,9 +9,8 @@
     "dev": "nodemon index.js",
     "build:ui": "rm -rf build && cd /PhoneBook-Frontend/ && npm run build && cp -r build /",
     "deploy": "git push heroku main",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",    
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail"
-   
   },
   "author": "Dario Melia",
   "license": "ISC",
@@ -23,6 +22,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
+    "mongoose": "^6.2.0",
     "morgan": "^1.10.0"
   }
 }
