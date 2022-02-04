@@ -20,6 +20,9 @@ exports.deletePersons = (req,res) => {
     dbHandlers.deletePersonDb(id).then(delPerson =>{
         console.log(`${delPerson.name} was deleted from phonebook`)
         res.status(204).end()
+    }).catch(err => {
+        console.log(err);
+        res.status(404).end()
     })
     
 }
