@@ -35,7 +35,7 @@ exports.addPerson = (req,res)=>{
         })
     }
     const newPerson = {
-        id: Math.floor(Math.random() * (100000 - 4) + 4).toString(),
+        id: Math.floor(Math.random() * (100000 - 4) + 4),
         name,
         number
     }
@@ -46,6 +46,7 @@ exports.addPerson = (req,res)=>{
 
 
 
+// %%%%%%%%% HELPER FUNCTIONS %%%%%%%%%%%%%%
 const updateJSON = (newPersons) =>{
     fs.writeFile("./persons.json", JSON.stringify(newPersons), function writeJSON(err) {
         if (err) return console.log(err);

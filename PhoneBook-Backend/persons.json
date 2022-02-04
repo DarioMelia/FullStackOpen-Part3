@@ -1,8 +1,8 @@
 [
   { "id": 1, "name": "Arto Hellas", "number": "040-123456" },
-  { "id": 2, "name": "Ada Lovelace", "number": "39-44-5323523" },
   { "id": 3, "name": "Dan Abramov", "number": "12-43-234345" },
   { "id": 4, "name": "Mary Poppendieck", "number": "39-23-6423122" },
-  { "id": "21723", "name": "Dario Melia", "number": "45613264" },
-  { "id": "49672", "name": "Sara Alvarez", "number": "45678945" }
+  { "id": 7526, "name": "Sara Alvarez", "number": "69857458" },
+  { "id": 51151, "name": "Dario Melia", "number": "698898547" },
+  { "id": 30825, "name": "Er Pepe", "number": "666666666" }
 ]
