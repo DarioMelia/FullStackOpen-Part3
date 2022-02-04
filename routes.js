@@ -6,4 +6,6 @@ const controllers = require("./routeControllers.js");
 router.get("/", controllers.home);
 router.get("/info", controllers.info);
 
+
+
 module.exports = router;
