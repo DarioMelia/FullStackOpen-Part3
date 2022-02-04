@@ -50,8 +50,8 @@ exports.addPerson = (req,res)=>{
 const updateJSON = (newPersons) =>{
     fs.writeFile("./persons.json", JSON.stringify(newPersons), function writeJSON(err) {
         if (err) return console.log(err);
-        console.log(JSON.stringify(newPersons));
-        console.log('writing to ' + fileName);
+        // console.log(JSON.stringify(newPersons));
+        // console.log('writing to ' + fileName);
       });
 }
 
