@@ -18,6 +18,7 @@ const App = () => {
   const [isErr, setIsErr] = useState(false);
   
   useEffect(getPeople, []);
+  
 
   let numsToShow = persons.filter((num) =>
     num.name.toLowerCase().includes(filter.toLowerCase())
@@ -41,7 +42,11 @@ const App = () => {
     if (window.confirm(`Delete ${objToDel.name}?`)) {
       perServ
         .deleteEntry(id)
-        .then((res) => setPersons(persons.filter((p) => p.id !== id)))
+        .then((res) => {
+          setIsErr(false)
+          setNotMsg(`"${persons.find(p=>p.id === id).name}" was succesfully deleted from server`)
+          resetNot()
+          setPersons(persons.filter((p) => p.id !== id))})
         .catch((err) => {
           console.log(err)
           setIsErr(true)

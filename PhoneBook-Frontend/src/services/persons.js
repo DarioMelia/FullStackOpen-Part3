@@ -3,7 +3,9 @@ import axios from "axios";
 const baseUrl = "/api/persons";
 
 const getAll = () => {
-    return axios.get(baseUrl).then(res => res.data);
+    return axios.get(baseUrl).then(res => {
+    
+        return res.data});
 }
 
 const create = (newPerObj) =>{
