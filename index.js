@@ -24,9 +24,22 @@ app.use(express.json());
 app.use(express.static('build'))
 app.use(morgan(morganFormat));
 app.use(cors());
-
+// %%% ROUTES %%%
 app.use("/", routes);
 app.use("/api", apiRouter);
+// %%% ERROR HANDLING MIDLEWARE %%%
+const unknownEndpoint = (request, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+}
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message)
+  if (error.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' })
+  } 
+  next(error)
+  }
+app.use(unknownEndpoint)
+app.use(errorHandler)
 
 const PORT = process.env.PORT;
 app.listen(PORT);

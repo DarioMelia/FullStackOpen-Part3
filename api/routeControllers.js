@@ -6,25 +6,24 @@ exports.getPersons = (req,res)=>{
     dbHandlers.getPersonsDb().then(result => {
         persons = [...result];
         res.send(JSON.stringify(result))
+    }).catch(err =>{
+        console.error(err)
+        res.status(500).json(err)
     })
 }
-exports.getPerson = (req,res)=>{
+exports.getPerson = (req,res,next)=>{
     const id = req.params.id;
     dbHandlers.getPersonDb(id).then(person =>{
         if(!person)res.status(404).end()
         res.send(JSON.stringify(person))
-    })
+    }).catch(err=>next(err))
 }
-exports.deletePersons = (req,res) => {
+exports.deletePersons = (req,res,next) => {
     const id = req.params.id;
     dbHandlers.deletePersonDb(id).then(delPerson =>{
         console.log(`${delPerson.name} was deleted from phonebook`)
         res.status(204).end()
-    }).catch(err => {
-        console.log(err);
-        res.status(404).end()
-    })
-    
+    }).catch(err => next(err))   
 }
 
 exports.addPerson = (req,res)=>{
@@ -49,6 +48,9 @@ exports.addPerson = (req,res)=>{
     dbHandlers.addPersonDb(newPerson).then(person =>{
         persons = persons.concat(person);
         res.status(201).json(person)
+    }).catch(err=>{
+        console.log(err)
+        res.status(500).json(err)
     });
     
 }
