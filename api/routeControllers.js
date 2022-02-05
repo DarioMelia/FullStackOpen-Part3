@@ -1,10 +1,9 @@
 
-const dbHandlers = require("../mongo/dbHandlers");
-let persons;
+const db = require("../mongo/dbHandlers");
+
 
 exports.getPersons = (req,res)=>{
-    dbHandlers.getPersonsDb().then(result => {
-        persons = [...result];
+    db.getPersonsDb().then(result => {
         res.send(JSON.stringify(result))
     }).catch(err =>{
         console.error(err)
@@ -13,16 +12,16 @@ exports.getPersons = (req,res)=>{
 }
 exports.getPerson = (req,res,next)=>{
     const id = req.params.id;
-    dbHandlers.getPersonDb(id).then(person =>{
+    db.getPersonDb(id).then(person =>{
         if(!person)res.status(404).end()
         res.send(JSON.stringify(person))
     }).catch(err=>next(err))
 }
 exports.deletePersons = (req,res,next) => {
     const id = req.params.id;
-    dbHandlers.deletePersonDb(id).then(delPerson =>{
+    db.deletePersonDb(id).then(delPerson =>{
         console.log(`${delPerson.name} was deleted from phonebook`)
-        res.status(204).end()
+        res.status(204).json(delPerson)
     }).catch(err => next(err))   
 }
 
@@ -45,8 +44,7 @@ exports.addPerson = (req,res)=>{
     }
     const newPerson = {name,number}
     
-    dbHandlers.addPersonDb(newPerson).then(person =>{
-        persons = persons.concat(person);
+    db.addPersonDb(newPerson).then(person =>{
         res.status(201).json(person)
     }).catch(err=>{
         console.log(err)
@@ -55,11 +53,23 @@ exports.addPerson = (req,res)=>{
     
 }
 
+exports.updatePerson=(req,res,next)=>{
+    const id = req.params.id;
+    const {name,number} = req.body;
+    db.updatePersonDb(id,{name,number}).then(updatedPerson => {
+        if(!updatedPerson)res.status(404).json({err:"Could'nt find the person"})
+        res.status(200).json(updatedPerson)
+    }).catch(err=>next(err))
+}
+
 
 
 // %%%%%%%%% HELPER FUNCTIONS %%%%%%%%%%%%%%
 
 const nameExists = name =>{
-    if(persons.find(p=>p.name === name)) return true
-    return false
+    db.findPersonByNameDb(name).then(person =>{
+        if(person) return true
+        return false
+    })
+    
 }

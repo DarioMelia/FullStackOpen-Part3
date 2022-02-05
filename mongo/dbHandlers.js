@@ -19,3 +19,11 @@ exports.addPersonDb = ({name,number}) =>{
 exports.deletePersonDb = id =>{
     return Person.findByIdAndDelete(id).then(res => res)
 }
+
+exports.updatePersonDb = (id,updatedPerson) =>{
+    return Person.findByIdAndUpdate(id,updatedPerson,{new:true}).then(result=>result)
+}
+
+exports.findPersonByNameDb = (name)=>{
+    return Person.find({name:name}).then(person=>person)
+}
