@@ -1,11 +1,11 @@
-const Person = require("./models/person");
+const Person = require('./models/person')
 
 exports.getPersonsDb = () =>{
-    return Person.find({}).then(result => result);
+    return Person.find({}).then(result => result)
 }
 
 exports.getPersonDb = id =>{
-    return Person.findById(id).then(person => person);
+    return Person.findById(id).then(person => person)
 }
 
 exports.addPersonDb = ({name,number}) =>{
