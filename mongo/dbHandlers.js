@@ -21,7 +21,11 @@ exports.deletePersonDb = id =>{
 }
 
 exports.updatePersonDb = (id,updatedPerson) =>{
-    return Person.findByIdAndUpdate(id,updatedPerson,{new:true}).then(result=>result)
+    const opts={
+        new:true,
+        runValidators:true
+    }
+    return Person.findByIdAndUpdate(id,updatedPerson,opts).then(result=>result)
 }
 
 exports.findPersonByNameDb = (name)=>{

@@ -14,7 +14,7 @@ const Form = ({ onSubmit, onChange, newName, newNum }) => (
 const Input = ({ label, type, onChange, value }) => {
   return (
     <>
-      {label}: <input type={type} onChange={onChange} value={value} />
+      {label}: <input type="text" data-type={type} onChange={onChange} value={value} />
     </>
   );
 };

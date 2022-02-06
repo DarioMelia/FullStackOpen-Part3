@@ -26,15 +26,22 @@ const App = () => {
 
   // %% EVENT HANDLERS %%
   const onChange = (e) =>
-    e.target.type === "text"
+    e.target.getAttribute("data-type") === "text"
       ? setNewName(e.target.value)
       : setNewNum(e.target.value);
 
   const onFilterChange = (e) => setFilter(e.target.value);
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
-    nameExists() ? changeNumber() : createNewPerson();
+    nameExists().then(exists=>{
+      exists? changeNumber() : createNewPerson();
+    }).catch(err=>{
+      console.error(err)
+          setIsErr(true)
+          setNotMsg(`Person was already added from somewhere else`)
+          resetNot()
+    }) 
   };
   
   const delEntryOf = (id) => {
@@ -44,7 +51,7 @@ const App = () => {
         .deleteEntry(id)
         .then((res) => {
           setIsErr(false)
-          setNotMsg(`"${persons.find(p=>p.id === id).name}" was succesfully deleted from server`)
+          setNotMsg(`"${objToDel.name}" was succesfully deleted from server`)
           resetNot()
           setPersons(persons.filter((p) => p.id !== id))})
         .catch((err) => {
@@ -75,7 +82,12 @@ const App = () => {
         setNotMsg(`Added ${returnedObj.name}`)
         resetNot();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err)
+        setIsErr(true)
+        setNotMsg(err.response.data.error)
+        resetNot();
+      });
   }
   function changeNumber() {
     const currentPerson = persons.find((p) => p.name.toLowerCase() === newName.toLowerCase());
@@ -89,17 +101,16 @@ const App = () => {
           setIsErr(false)
           setNotMsg(`Updated ${returnObj.name}'s number`);
           resetNot();
+          resetInputs();
         })
         .catch((err) =>{
           console.log(err)
           setIsErr(true)
-          setPersons(persons.filter((p) => p.name !== updated.name))
-          setNotMsg(`Information of ${updated.name} has already been removed from server`)
-          resetNot()
-
+          setNotMsg(err.response.data.error)
+          resetNot();
         })
     }
-    resetInputs();
+    
   }
 
   function resetInputs() {
@@ -110,7 +121,12 @@ const App = () => {
     setTimeout(()=>setNotMsg(null),5000)
   }
 
-  const nameExists = () => persons.find((el) => el.name.toLowerCase() === newName.toLowerCase());
+  const nameExists = () => {
+    return perServ.getAll().then(persons =>{
+      setPersons(persons)
+      return persons.find((el) => el.name.toLowerCase() === newName.toLowerCase())
+    })
+     };
 
   // %% RETURN JSX %%
   return (

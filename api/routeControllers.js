@@ -1,7 +1,7 @@
 
 const db = require("../mongo/dbHandlers");
 
-
+let persons
 exports.getPersons = (req,res)=>{
     db.getPersonsDb().then(result => {
         res.send(JSON.stringify(result))
@@ -25,7 +25,7 @@ exports.deletePersons = (req,res,next) => {
     }).catch(err => next(err))   
 }
 
-exports.addPerson = (req,res)=>{
+exports.addPerson = (req,res,next)=>{
     const{name,number} = req.body;
     if(!name){
         return res.status(404).json({
@@ -37,19 +37,21 @@ exports.addPerson = (req,res)=>{
             error: "Number missing"
         })
     }
-    if(nameExists(name)){
-        return res.status(409).json({
-            error: "Name already exists"
-        })
-    }
+    nameExists(name).then(exists =>{
+        if(exists){
+            return res.status(409).json({
+                error: "Name already exists"
+            })
+        }
+
     const newPerson = {name,number}
     
     db.addPersonDb(newPerson).then(person =>{
         res.status(201).json(person)
-    }).catch(err=>{
-        console.log(err)
-        res.status(500).json(err)
-    });
+    }).catch(err=>next(err));
+    })
+   
+    
     
 }
 
@@ -67,8 +69,9 @@ exports.updatePerson=(req,res,next)=>{
 // %%%%%%%%% HELPER FUNCTIONS %%%%%%%%%%%%%%
 
 const nameExists = name =>{
-    db.findPersonByNameDb(name).then(person =>{
-        if(person) return true
+    return db.findPersonByNameDb(name).then(person =>person).then(person =>{
+        console.log("person:", person)
+        if(person.length>0) return true
         return false
     })
     
